@@ -1,0 +1,15 @@
+﻿# Fichiers de données et rapports générés par les scripts
+*.csv
+*.json
+*.log
+*.xml
+
+# Fichiers de configuration locale et éditeurs
+.vscode/
+*.code-workspace
+
+# Fichiers système Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
