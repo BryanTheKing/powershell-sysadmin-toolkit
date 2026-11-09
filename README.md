@@ -21,7 +21,8 @@ powershell-sysadmin-toolkit/
 
 | Script | Description | Format de sortie |
 | :--- | :--- | :--- |
-| Audit-MemoryConsumption.ps1 | Analyse les processus depassant un seuil memoire, genere un rapport CSV conforme et notifie la console. | CSV (delimiteur ;) + Console |
+| `Audit-MemoryConsumption.ps1` | Analyse les processus depassant un seuil memoire, genere un rapport CSV et notifie la console. | CSV + Console |
+| `Get-DiskAlert.ps1` | Verifie l'espace disque disponible via CIM/WMI et evalue le statut de capacite (OK/CRITIQUE). | `[PSCustomObject]` (Pipeline) |
 
 ---
 
@@ -30,14 +31,11 @@ powershell-sysadmin-toolkit/
 * Environnement requis : Windows PowerShell 5.1 ou PowerShell 7+
 * Politique d'execution : RemoteSigned
 
-### Exemple d'execution
+### Exemples d'execution
 
+```powershell
+# Audit de memoire vive
 .\System-Audits\Audit-MemoryConsumption.ps1
 
----
-
-## Bonnes pratiques appliquees
-
-* Documentation integree : Commentaires d'aide conformes aux standards Microsoft (.SYNOPSIS, .DESCRIPTION, .EXAMPLE).
-* Traitement en pipeline : Optimisation des requetes avec filtrage amont (Where-Object) et projection precise (Select-Object).
-* Hygiene Git : Segregation stricte du code source et des rapports d'audit via .gitignore.
+# Audit d'espace disque avec parametres personnalises
+.\System-Audits\Get-DiskAlert.ps1 -DriveLetter "D" -WarningThresholdPercent 20 | Format-Table
