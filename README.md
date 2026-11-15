@@ -61,3 +61,11 @@ Get-Command -Module SysAdminToolkit
 
 # Exemple d'execution directe
 "C", "D" | Get-DiskAlert | Format-Table -AutoSize
+
+## Tests Unitaires & Qualite (`Tests/`)
+
+Le module est audite avec `PSScriptAnalyzer` et valide via `Pester` :
+
+```powershell
+# Lancer la suite de tests automatises
+Invoke-Pester ".\Tests\SysAdminToolkit.Tests.ps1"

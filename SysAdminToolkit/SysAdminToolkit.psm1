@@ -45,7 +45,7 @@ function Get-DiskAlert {
     }
 }
 
-function Clear-StaleTempFiles {
+function Clear-StaleTempFile {
     <#
     .SYNOPSIS
         Nettoie les fichiers temporaires expires dans un repertoire cible de maniere resiliente.
@@ -97,4 +97,4 @@ function Clear-StaleTempFiles {
 }
 
 # Exposition explicite des commandes publiques du module
-Export-ModuleMember -Function Get-DiskAlert, Clear-StaleTempFiles
+Export-ModuleMember -Function Get-DiskAlert, Clear-StaleTempFile
