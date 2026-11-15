@@ -39,3 +39,9 @@ powershell-sysadmin-toolkit/
 
 # Audit d'espace disque avec parametres personnalises
 .\System-Audits\Get-DiskAlert.ps1 -DriveLetter "D" -WarningThresholdPercent 20 | Format-Table
+
+### 2. Automation Utils (Automation-Utils/)
+
+| Script | Description | Format de sortie |
+| :--- | :--- | :--- |
+| `Clear-StaleTempFiles.ps1` | Purge resiliente des fichiers expires (`try/catch`) avec support natif `-WhatIf` et `-Confirm`. | Flux Console / Pipeline |
