@@ -45,3 +45,19 @@ powershell-sysadmin-toolkit/
 | Script | Description | Format de sortie |
 | :--- | :--- | :--- |
 | `Clear-StaleTempFiles.ps1` | Purge resiliente des fichiers expires (`try/catch`) avec support natif `-WhatIf` et `-Confirm`. | Flux Console / Pipeline |
+
+## Module PowerShell (`SysAdminToolkit/`)
+
+Le dossier `SysAdminToolkit/` regroupe les outils sous forme de module distributable (`SysAdminToolkit.psm1` et manifeste `SysAdminToolkit.psd1`).
+
+### Importation et utilisation rapide
+
+```powershell
+# Importer le module dans la session courante
+Import-Module ".\SysAdminToolkit\SysAdminToolkit.psd1" -Force
+
+# Lister les commandes exposees
+Get-Command -Module SysAdminToolkit
+
+# Exemple d'execution directe
+"C", "D" | Get-DiskAlert | Format-Table -AutoSize
