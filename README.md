@@ -1,4 +1,4 @@
-﻿# PowerShell SysAdmin Toolkit
+# PowerShell SysAdmin Toolkit
 
 Outils et scripts d'automatisation PowerShell concus pour l'administration systeme Windows, la supervision et la gouvernance d'environnements Microsoft 365 / Cloud.
 
@@ -39,6 +39,7 @@ powershell-sysadmin-toolkit/
 | Script | Description | Format de sortie |
 | :--- | :--- | :--- |
 | `Get-EntraUserAudit.ps1` | Extraction des comptes Entra ID (`Microsoft.Graph.Users`) avec filtrage des comptes desactives (`-OnlyDisabled`), recherche par nom (`-NameFilter`) et export CSV compatible Excel (`-ExportPath`). | `[PSCustomObject]` / CSV |
+| `Get-EntraLicenseAudit.ps1` | Audit des licences Microsoft 365 (`SkuId` vers `SkuPartNumber`), detection des licences attribuees aux comptes desactives (`-OnlyDisabledWithLicense`) et export CSV (`-ExportPath`). | `[PSCustomObject]` / CSV |
 
 ---
 
@@ -46,7 +47,7 @@ powershell-sysadmin-toolkit/
 
 - **Environnement requis :** Windows PowerShell 5.1 ou PowerShell 7+
 - **Politique d'execution :** `RemoteSigned`
-- **Modules Cloud / M365 :** `Microsoft.Graph.Users` (Permissions : `User.Read.All` ou `User.ReadWrite.All`)
+- **Modules Cloud / M365 :** `Microsoft.Graph.Authentication`, `Microsoft.Graph.Users`, `Microsoft.Graph.Identity.DirectoryManagement` (Permissions : `User.Read.All`, `Organization.Read.All`)
 
 ### Exemples d'execution
 
