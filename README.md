@@ -6,30 +6,47 @@ Outils et scripts d'automatisation PowerShell concus pour l'administration syste
 
 ## Architecture du depot
 
+```text
 powershell-sysadmin-toolkit/
 ├── System-Audits/          # Scripts d'audit de conformite, resilience et metriques locales
-├── Cloud-M365/             # Scripts de gestion Entra ID, licences et securite M365 (a venir)
+├── Cloud-M365/             # Scripts de gestion Entra ID, licences et securite M365
 ├── Automation-Utils/       # Modules et fonctions d'automatisation reutilisables
+├── SysAdminToolkit/        # Module PowerShell distributable (.psm1 / .psd1)
+├── Tests/                  # Suite de tests automatises (PSScriptAnalyzer & Pester)
 ├── .gitignore              # Exclusion des artefacts d'execution (CSV, JSON, logs)
 └── README.md               # Documentation globale du depot
+```
 
 ---
 
 ## Modules et scripts disponibles
 
-### 1. System Audits (System-Audits/)
+### 1. System Audits (`System-Audits/`)
 
 | Script | Description | Format de sortie |
 | :--- | :--- | :--- |
 | `Audit-MemoryConsumption.ps1` | Analyse les processus depassant un seuil memoire, genere un rapport CSV et notifie la console. | CSV + Console |
 | `Get-DiskAlert.ps1` | Verifie l'espace disque disponible via CIM/WMI et evalue le statut de capacite (OK/CRITIQUE). | `[PSCustomObject]` (Pipeline) |
 
+### 2. Automation Utils (`Automation-Utils/`)
+
+| Script | Description | Format de sortie |
+| :--- | :--- | :--- |
+| `Clear-StaleTempFiles.ps1` | Purge resiliente des fichiers expires (`try/catch`) avec support natif `-WhatIf` et `-Confirm`. | Flux Console / Pipeline |
+
+### 3. Cloud & Microsoft 365 (`Cloud-M365/`)
+
+| Script | Description | Format de sortie |
+| :--- | :--- | :--- |
+| `Get-EntraUserAudit.ps1` | Extraction des comptes Entra ID (`Microsoft.Graph.Users`) avec filtrage des comptes desactives (`-OnlyDisabled`), recherche par nom (`-NameFilter`) et export CSV compatible Excel (`-ExportPath`). | `[PSCustomObject]` / CSV |
+
 ---
 
 ## Prerequis et execution
 
-* Environnement requis : Windows PowerShell 5.1 ou PowerShell 7+
-* Politique d'execution : RemoteSigned
+- **Environnement requis :** Windows PowerShell 5.1 ou PowerShell 7+
+- **Politique d'execution :** `RemoteSigned`
+- **Modules Cloud / M365 :** `Microsoft.Graph.Users` (Permissions : `User.Read.All` ou `User.ReadWrite.All`)
 
 ### Exemples d'execution
 
@@ -40,11 +57,13 @@ powershell-sysadmin-toolkit/
 # Audit d'espace disque avec parametres personnalises
 .\System-Audits\Get-DiskAlert.ps1 -DriveLetter "D" -WarningThresholdPercent 20 | Format-Table
 
-### 2. Automation Utils (Automation-Utils/)
+# Connexion Entra ID et audit des utilisateurs desactives
+Connect-MgGraph -Scopes "User.ReadWrite.All"
+. .\Cloud-M365\Get-EntraUserAudit.ps1
+Get-EntraUserAudit -OnlyDisabled -ExportPath "C:\Reports\Audits.csv"
+```
 
-| Script | Description | Format de sortie |
-| :--- | :--- | :--- |
-| `Clear-StaleTempFiles.ps1` | Purge resiliente des fichiers expires (`try/catch`) avec support natif `-WhatIf` et `-Confirm`. | Flux Console / Pipeline |
+---
 
 ## Module PowerShell (`SysAdminToolkit/`)
 
@@ -61,6 +80,9 @@ Get-Command -Module SysAdminToolkit
 
 # Exemple d'execution directe
 "C", "D" | Get-DiskAlert | Format-Table -AutoSize
+```
+
+---
 
 ## Tests Unitaires & Qualite (`Tests/`)
 
@@ -69,3 +91,4 @@ Le module est audite avec `PSScriptAnalyzer` et valide via `Pester` :
 ```powershell
 # Lancer la suite de tests automatises
 Invoke-Pester ".\Tests\SysAdminToolkit.Tests.ps1"
+```
