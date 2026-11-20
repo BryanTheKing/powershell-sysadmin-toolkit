@@ -96,5 +96,21 @@ function Clear-StaleTempFile {
     }
 }
 
+# Chargement dynamique des fonctions Cloud / Microsoft 365
+$CloudScripts = @(
+    "$PSScriptRoot\..\Cloud-M365\Get-EntraUserAudit.ps1",
+    "$PSScriptRoot\..\Cloud-M365\Get-EntraLicenseAudit.ps1",
+    "$PSScriptRoot\..\Cloud-M365\Get-EntraAdminAudit.ps1"
+)
+
+foreach ($Script in $CloudScripts) {
+    if (Test-Path -Path $Script) {
+        . $Script
+    }
+    else {
+        Write-Warning "Script Cloud-M365 introuvable : $Script"
+    }
+}
+
 # Exposition explicite des commandes publiques du module
-Export-ModuleMember -Function Get-DiskAlert, Clear-StaleTempFile
+Export-ModuleMember -Function Get-DiskAlert, Clear-StaleTempFile, Get-EntraUserAudit, Get-EntraLicenseAudit, Get-EntraAdminAudit
